@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Touch Scroll Only</title>
+</head>
+<body>
+
+<script>
+  
+document.body.style.margin = "0";
+document.body.style.width = "100vw";
+document.body.style.height = "100vh";
+document.body.style.display = "flex";
+document.body.style.fontFamily = "Arial";
+
+const panel = document.createElement("div");
+Object.assign(panel.style, {
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  flexDirection: "column"
+});
+document.body.appendChild(panel);
+
+const header = document.createElement("div");
+Object.assign(header.style, {
+  height: "50px",
+  background: "#2c7be5",
+  flexShrink: "0"
+});
+panel.appendChild(header);
+
+const middle = document.createElement("div");
+Object.assign(middle.style, {
+  flex: "1",
+  margin: "10px",
+  overflow: "hidden"
+});
+panel.appendChild(middle);
+
+const contentBox = document.createElement("div");
+Object.assign(contentBox.style, {
+  width: "100%",
+  height: "100%",
+  position: "relative",
+  background: "#f2f2f2",
+  overflow: "hidden",
+  touchAction: "none"
+});
+middle.appendChild(contentBox);
+
+const content = document.createElement("div");
+Object.assign(content.style, {
+  position: "absolute",
+  top: "0",
+  left: "0",
+  right: "0"
+});
+contentBox.appendChild(content);
+
+const item = document.createElement("div");
+item.textContent = "chika";
+Object.assign(item.style, {
+  height: "1500px",
+  background: "#cfe6f5",
+  textAlign: "center",
+  fontSize: "24px",
+  lineHeight: "1500px"
+});
+content.appendChild(item);
+
+const footer = document.createElement("div");
+Object.assign(footer.style, {
+  height: "70px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "20px",
+  flexShrink: "0"
+});
+panel.appendChild(footer);
+
+["A","B","C"].forEach(t => {
+  const btn = document.createElement("button");
+  btn.textContent = t;
+  Object.assign(btn.style, {
+    width: "70px",
+    height: "35px",
+    background: "#2c7be5",
+    color: "white",
+    border: "none",
+    borderRadius: "5px"
+  });
+  footer.appendChild(btn);
+});
+
+let currentY = 0;
+let startY = 0;
+
+function clamp(val, min, max) {
+  return Math.max(min, Math.min(max, val));
+}
+
+function update() {
+  const maxScroll = content.scrollHeight - contentBox.clientHeight;
+  currentY = clamp(currentY, -maxScroll, 0);
+  content.style.top = currentY + "px";
+}
+
+contentBox.addEventListener("touchstart", e => {
+  startY = e.touches[0].clientY;
+});
+
+contentBox.addEventListener("touchmove", e => {
+  const y = e.touches[0].clientY;
+  const delta = y - startY;
+  startY = y;
+  currentY += delta;
+  update();
+});
+
+contentBox.addEventListener("mousedown", e => {
+  startY = e.clientY;
+  document.onmousemove = ev => {
+    const delta = ev.clientY - startY;
+    startY = ev.clientY;
+    currentY += delta;
+    update();
+  };
+  document.onmouseup = () => {
+    document.onmousemove = null;
+  };
+});
+
+update();
+</script>
+
+</body>
+</html>
