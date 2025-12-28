@@ -1,140 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Touch Scroll Only</title>
+<title>UTS5</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: Arial;
+}
+
+/* Panel utama */
+.panel {
+  height: 100vh;
+  border: 2px solid #555;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  height: 50px;
+  background: #2c7be5;
+  flex-shrink: 0;
+}
+
+/* Footer */
+.footer {
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.footer button {
+  width: 70px;
+  height: 35px;
+  background: #2c7be5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Area tengah */
+.middle {
+  flex: 1;
+  margin: 10px;
+  border: 1px solid #aaa;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* ITEM (scroll khusus) */
+.item {
+  height: 100%;
+  overflow-y: auto;
+  background: #eaeaea;
+  text-align: center;
+  font-size: 24px;
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #cbd5e1;
+}
+
+/* Chrome / Edge */
+.item::-webkit-scrollbar {
+  width: 8px;
+}
+
+.item::-webkit-scrollbar-track {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.item::-webkit-scrollbar-thumb {
+  background: #2563eb;
+  border-radius: 10px;
+}
+
+.item::-webkit-scrollbar-thumb:hover {
+  background: #1e40af;
+}
+
+/* Isi panjang */
+.item-content {
+  height: 1200px;
+  line-height: 1200px;
+}
+</style>
 </head>
+
 <body>
 
-<script>
-  
-document.body.style.margin = "0";
-document.body.style.width = "100vw";
-document.body.style.height = "100vh";
-document.body.style.display = "flex";
-document.body.style.fontFamily = "Arial";
+<div class="panel">
 
-const panel = document.createElement("div");
-Object.assign(panel.style, {
-  width: "100%",
-  height: "100%",
-  display: "flex",
-  flexDirection: "column"
-});
-document.body.appendChild(panel);
+  <div class="header"></div>
 
-const header = document.createElement("div");
-Object.assign(header.style, {
-  height: "50px",
-  background: "#2c7be5",
-  flexShrink: "0"
-});
-panel.appendChild(header);
+  <div class="middle">
+    <div class="item">
+      <div class="item-content">CHIKA</div>
+    </div>
+  </div>
 
-const middle = document.createElement("div");
-Object.assign(middle.style, {
-  flex: "1",
-  margin: "10px",
-  overflow: "hidden"
-});
-panel.appendChild(middle);
+  <div class="footer">
+    <button>A</button>
+    <button>B</button>
+    <button>C</button>
+  </div>
 
-const contentBox = document.createElement("div");
-Object.assign(contentBox.style, {
-  width: "100%",
-  height: "100%",
-  position: "relative",
-  background: "#f2f2f2",
-  overflow: "hidden",
-  touchAction: "none"
-});
-middle.appendChild(contentBox);
-
-const content = document.createElement("div");
-Object.assign(content.style, {
-  position: "absolute",
-  top: "0",
-  left: "0",
-  right: "0"
-});
-contentBox.appendChild(content);
-
-const item = document.createElement("div");
-item.textContent = "chika";
-Object.assign(item.style, {
-  height: "1500px",
-  background: "#cfe6f5",
-  textAlign: "center",
-  fontSize: "24px",
-  lineHeight: "1500px"
-});
-content.appendChild(item);
-
-const footer = document.createElement("div");
-Object.assign(footer.style, {
-  height: "70px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: "20px",
-  flexShrink: "0"
-});
-panel.appendChild(footer);
-
-["A","B","C"].forEach(t => {
-  const btn = document.createElement("button");
-  btn.textContent = t;
-  Object.assign(btn.style, {
-    width: "70px",
-    height: "35px",
-    background: "#2c7be5",
-    color: "white",
-    border: "none",
-    borderRadius: "5px"
-  });
-  footer.appendChild(btn);
-});
-
-let currentY = 0;
-let startY = 0;
-
-function clamp(val, min, max) {
-  return Math.max(min, Math.min(max, val));
-}
-
-function update() {
-  const maxScroll = content.scrollHeight - contentBox.clientHeight;
-  currentY = clamp(currentY, -maxScroll, 0);
-  content.style.top = currentY + "px";
-}
-
-contentBox.addEventListener("touchstart", e => {
-  startY = e.touches[0].clientY;
-});
-
-contentBox.addEventListener("touchmove", e => {
-  const y = e.touches[0].clientY;
-  const delta = y - startY;
-  startY = y;
-  currentY += delta;
-  update();
-});
-
-contentBox.addEventListener("mousedown", e => {
-  startY = e.clientY;
-  document.onmousemove = ev => {
-    const delta = ev.clientY - startY;
-    startY = ev.clientY;
-    currentY += delta;
-    update();
-  };
-  document.onmouseup = () => {
-    document.onmousemove = null;
-  };
-});
-
-update();
-</script>
+</div>
 
 </body>
 </html>
