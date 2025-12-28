@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Latihan 9 - Cek Kelulusan</title>
+    <style>
+        body {
+            font-family: serif;
+            padding: 20px;
+        }
+        .input-group {
+            margin-bottom: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+        }
+        #hasil {
+            margin-top: 15px;
+            font-size: 16px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+<div class="input-group">
+    <label>Batas Kelulusan</label>
+    <input type="number" id="nilaiBatas">
+</div>
+
+<h2>Cek Kelulusan</h2>
+
+<div class="input-group">
+    <label>Nilai Ujian</label>
+    <input type="number" id="nilaiUjian">
+</div>
+
+<button id="btnCek">Cek</button>
+
+<div id="hasil"></div>
+
+<script>
+    const tombol = document.getElementById("btnCek");
+    const hasil = document.getElementById("hasil");
+
+    tombol.addEventListener("click", function () {
+        const batas = document.getElementById("nilaiBatas").value;
+        const nilai = document.getElementById("nilaiUjian").value;
+
+        if (batas !== "" && nilai !== "") {
+            const b = Number(batas);
+            const n = Number(nilai);
+
+            hasil.textContent = (n >= b) ? "LULUS" : "TIDAK LULUS";
+        } else {
+            hasil.textContent = "";
+        }
+    });
+</script>
+
+</body>
+</html>

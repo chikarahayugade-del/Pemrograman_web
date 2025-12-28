@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Konversi Mata Uang</title>
+    <style>
+        body {
+            font-family: serif;
+            padding: 20px;
+        }
+        .container {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .buttons {
+            display: flex;
+            gap: 6px;
+        }
+        #hasil {
+            margin-top: 6px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Konversi Mata Uang</h2>
+
+<div class="container">
+    <div>
+        <span id="teksInput">Dollar</span>
+        <input type="number" id="nilai" />
+    </div>
+
+    <div class="buttons">
+        <button id="btnKonversi">Konversi</button>
+        <button id="btnTukar">Tukar</button>
+    </div>
+
+    <div id="hasil">Rupiah 0</div>
+</div>
+
+<script>
+    const RATE = 15000;
+    let isDollar = true;
+
+    const input = document.getElementById("nilai");
+    const label = document.getElementById("teksInput");
+    const hasil = document.getElementById("hasil");
+
+    document.getElementById("btnKonversi").addEventListener("click", function () {
+        let angka = Number(input.value);
+
+        if (isDollar) {
+            hasil.textContent = "Rupiah " + (angka * RATE).toLocaleString("id-ID");
+        } else {
+            hasil.textContent = "Dollar " + (angka / RATE);
+        }
+    });
+
+    document.getElementById("btnTukar").addEventListener("click", function () {
+        isDollar = !isDollar;
+
+        label.textContent = isDollar ? "Dollar" : "Rupiah";
+        hasil.textContent = isDollar ? "Rupiah 0" : "Dollar 0";
+        input.value = "";
+    });
+</script>
+
+</body>
+</html>
