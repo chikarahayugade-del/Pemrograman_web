@@ -1,3 +1,3 @@
-from cli import kumpulan_menu
+from controller import kumpulan_menu
 
 kumpulan_menu()
